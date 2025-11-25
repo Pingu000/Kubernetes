@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: kubernetes-apache2
+ namespace: default
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   app: apache2
+ template:
+  metadata:
+   labels:
+    app: apache2
+  spec:
+   containers:
+   - name: kubernetes-apache2
+     image: docker.io/alejandromontero1/mimagen:0.1v
+     volumeMounts:
+     - mountPath: /prueba
+       name: directorio-prueba
+   volumes:
+   - name: directorio-prueba
+     hostPath:
+      path: /home/ubuntu/compartido
+      type: Directory
