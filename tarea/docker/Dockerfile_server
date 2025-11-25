@@ -1,0 +1,15 @@
+FROM ubuntu:20.04
+RUN apt-get update
+RUN apt-get install -y curl software-properties-common
+
+WORKDIR /app
+
+COPY serverFileManager /app/serverFileManager
+COPY resolv.conf /app/resolv.conf
+
+RUN chmod +x /app/serverFileManager
+RUN mkdir -p /app/FileManagerDir
+
+EXPOSE 32001
+
+CMD cp /app/resolv.conf /etc/resolv.conf && /app/serverFileManager 10.111.132.74 32002 $(curl -s https://api.ipify.org) 32001
