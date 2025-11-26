@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: server-filemanager
+ namespace: default
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   app: serverfm
+ template:
+  metadata:
+   labels:
+    app: serverfm
+  spec:
+   containers:
+   - name: server-container
+     image: docker.io/alejandromontero1/serverfilemanager:0.9v
+     ports:
+     - containerPort: 32001
+     volumeMounts:
+     - mountPath: /app/FileManagerDir
+       name: directorio-prueba
+   volumes:
+   - name: directorio-prueba
+     persistentVolumeClaim:
+       claimName: nfs-pvc
